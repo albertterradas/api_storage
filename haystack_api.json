@@ -160,6 +160,72 @@
                }
             }
          }
+      },
+      "/insights/domain":{
+         "get":{
+            "tags":[
+               "authorized"
+            ],
+            "summary":"reports the insights of the leaks for a certain domain. (total leaks and for each type)",
+            "operationId":"domainInsights",
+            "description":"By passing in a domain info, returns a report a resume of the differents leaks occurred\n",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"query",
+                  "name":"dst_domain",
+                  "description":"destination domain of the pii",
+                  "required":true,
+                  "type":"string"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"search results matching the applied filter",
+                  "schema":{
+                     "$ref":"#/definitions/insights"
+                  }
+               },
+               "400":{
+                  "description":"bad input parameter"
+               }
+            }
+         }
+      },
+      "/insights/app":{
+         "get":{
+            "tags":[
+               "authorized"
+            ],
+            "summary":"reports the insights of the leaks for a certain app. (total leaks and for each type)",
+            "operationId":"appInsights",
+            "description":"By passing in an app info, returns a report a resume of the differents leaks occurred\n",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"query",
+                  "name":"dst_domain",
+                  "description":"destination domain of the pii",
+                  "required":true,
+                  "type":"string"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"search results matching the applied filter",
+                  "schema":{
+                     "$ref":"#/definitions/insights"
+                  }
+               },
+               "400":{
+                  "description":"bad input parameter"
+               }
+            }
+         }
       }
    },
    "definitions":{
@@ -185,15 +251,25 @@
             }
          }
       },
-      "leaksInsights":{
+      "insights":{
          "type":"object",
          "required":[
-            "pii_leak_type_count"
+            "total_leaks",
+            "leak_insight_list"
          ],
          "properties":{
-            "pii_leak_type_count":{
+            "total_leaks":{
                "type":"integer",
                "example":123
+            },
+            "leak_insight_list":{
+               "type":"array",
+               "example":[
+                  {
+                     "leak_type":"personal_info",
+                     "leak_count":"2"
+                  }
+               ]
             }
          }
       },
